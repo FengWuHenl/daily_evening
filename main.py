@@ -19,7 +19,7 @@ app_secret = os.getenv('APP_SECRET')
 
 user_ids = os.getenv('USER_ID', '').split("\n")
 template_id = os.getenv('TEMPLATE_ID')
-
+Tips = "忙了一天早点休息吧，晚安祝好梦~ (￣o￣) . z Z"
 if app_id is None or app_secret is None:
   print('请设置 APP_ID 和 APP_SECRET')
   exit(422)
@@ -104,55 +104,80 @@ weather = get_weather()
 if weather is None:
   print('获取天气失败')
   exit(422)
-data = {
-  "city": {
-    "value": city,
-    "color": get_random_color()
-  },
-  "date": {
+"date": {
     "value": today.strftime('%Y年%m月%d日'),
     "color": get_random_color()
   },
+  #星期几
   "week_day": {
     "value": get_week_day(),
     "color": get_random_color()
   },
+  #城市
+  "city": {
+    "value": city,
+    "color": get_random_color()
+  },
+  #天气
   "weather": {
     "value": weather['weather'],
     "color": get_random_color()
   },
+  #天气更新时间
+  "weatherUpdateTime":{
+    "value":weather['lastUpdateTime'] + ' 更新',
+    "color":get_random_color()
+  },
+  #湿度
   "humidity": {
     "value": weather['humidity'],
     "color": get_random_color()
   },
+  #风力
   "wind": {
     "value": weather['wind'],
     "color": get_random_color()
   },
+  #pm2.5
+   "pm25":{
+    "value": weather['pm25'],
+    'color': get_random_color()
+  },
+  #空气指数
   "air_data": {
     "value": weather['airData'],
     "color": get_random_color()
   },
+  #空气质量
   "air_quality": {
     "value": weather['airQuality'],
     "color": get_random_color()
   },
+  #温度
   "temperature": {
     "value": math.floor(weather['temp']),
     "color": get_random_color()
   },
+  #最高温度
   "highest": {
     "value": math.floor(weather['high']),
     "color": get_random_color()
   },
+  #最低温度
   "lowest": {
     "value": math.floor(weather['low']),
     "color": get_random_color()
   },
+  #开始时间
   "love_days": {
     "value": get_memorial_days_count(),
     "color": get_random_color()
   },
+  "tips":{
+    "value": Tips,
+    "color": get_random_color()
+  },
+  #彩虹屁
   "words": {
     "value": get_words(),
     "color": get_random_color()
@@ -162,7 +187,7 @@ data = {
 for index, aim_date in enumerate(split_birthday()):
   key_name = "birthday_left"
   if index != 0:
-    key_name = key_name + "_%d" % index
+    key_name
   data[key_name] = {
     "value": get_counter_left(aim_date),
     "color": get_random_color()
